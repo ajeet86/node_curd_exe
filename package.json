@@ -1,0 +1,27 @@
+{
+  "name": "node_curd_exe",
+  "version": "1.0.0",
+  "description": "node cure example mysql ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajeet86/node_curd_exe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajeet86/node_curd_exe/issues"
+  },
+  "homepage": "https://github.com/ajeet86/node_curd_exe#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.1.3-alpha.2",
+    "mysql": "^2.16.0",
+    "req-flash": "0.0.3"
+  }
+}
