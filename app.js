@@ -5,7 +5,8 @@ const mysql = require('mysql');
 const path = require('path');
 const app = express();
 
- const {getHomePage} = require('./routes/index');
+
+ const {getHomePage,genPdf} = require('./routes/index');
  const {addPlayerPage, addPlayer, deletePlayer, editPlayer, editPlayerPage} = require('./routes/player');
 const port = 5000;
 
@@ -48,6 +49,7 @@ app.get('/edit/:id', editPlayerPage);
 app.get('/delete/:id', deletePlayer);
 app.post('/add', addPlayer);
 app.post('/edit/:id', editPlayer);
+app.get('/genPdf', genPdf);
 
 
 // set the app to listen on the port
