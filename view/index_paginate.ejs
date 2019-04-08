@@ -3,7 +3,7 @@
         <% if (players.length > 0) {%>
             <table class="table table-hovered">
                 <thead class="thead-dark">
-				    <tr><th><a href="/genpdf" >Genrate Pdf</a>.</p></th><th><a href="/getHomePaginate" >custom pagination</a>.</p></th></tr>
+				    <tr><th><a href="/genpdf" >Genrate Pdf</a>.</p></th><th><a href="/" >all record</a>.</p></th></tr>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Image</th>
@@ -33,6 +33,41 @@
                     <% }) %>
                 </tbody>
             </table>
+			pagination here 
+			
+			<% if (pages > 0) { %>
+                <ul class="pagination text-center">
+                    <% if (current == 1) { %>
+                        <li class="disabled"><a>First</a></li>
+                    <% } else { %>
+                        <li><a href="/getHomePaginate/1">First</a></li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="disabled"><a>...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="active"><a><%= i %></a></li>
+                        <% } else { %>
+                            <li><a href="/getHomePaginate/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="disabled"><a>...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="disabled"><a>Last</a></li>
+                    <% } else { %>
+                        <li><a href="/getHomePaginate/<%= pages %>">Last</a></li>
+                    <% } %>
+                </ul>
+            <% } %>
+			
+			
+			
+		</div>	
+			
 			
         <% } else { %>
             <p class="text-center">No players found. Go <a href="/add" >here</a> to add players.</p>

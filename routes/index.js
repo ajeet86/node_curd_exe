@@ -6,7 +6,98 @@ module.exports = {
 	
 	
 	
+	 getHomePaginate: (req, res) => {   
+// Mention table from where you want to fetch records example-users
+//var table = ["players"]; 
+//To calculate Total Count use MySQL count function
+//var query = "Select count(*) as TotalCount from ??"; 
+//query = mysql.format(query, table);
+//connection.query(query, function(err, rows) {
+								   
+					
+					let pageId = req.params.id;
+					let startNum = '';
+					let LimitNum ='';
+					let current='';
+					let pages='';
+					if (typeof pageId !== 'undefined'){
+						   if(pageId==1){
+							startNum = 0;
+							LimitNum = 2;
+							current=1;
+							pages=1;
+						   }else{  
+							startNum = parseInt(pageId);
+							LimitNum = 2;
+							current=parseInt(pageId);   
+						   }
+					
+					//pages=pageId;
+					
+					}else{
+					startNum = 0;
+					LimitNum = 2;
+					current=1;
+					pages=1;
+					}
+					
+		
+				
+	//	console.log(LimitNum+'asasas'+startNum)	;					   
+								   
+		let query = "Select count(*) as TotalCount from `players`"; // query database to get all the players						   
+db.query(query, (err, result) => {								   
+								   
+ if(err){
+   return err;
+ }else{ 
+  //store Total count in variable
+  let totalCount = result[0].TotalCount;
+  pages=Math.ceil(totalCount/2);
+  console.log(totalCount+'djdjdjdjd'+pages);
+  /* startNum = 0;
+      LimitNum = 3;
+ if(req.body.start == '' || req.body.limit == ''){
+      startNum = 0;
+      LimitNum = 3;
+   }
+ else{
+     //parse int Convert String to number 
+      let startNum = parseInt(req.body.start);
+      let LimitNum = parseInt(req.body.limit);
+   }*/
+}
+console.log(startNum+'========'+LimitNum);
+});
+var query1 = "Select * from ?? ORDER BY id ASC limit ? OFFSET ?";
+//Mention table from where you want to fetch records example-users & send limit and start 
+console.log(query1);
+var table = ["players",LimitNum,startNum];
+query = db.format(query1, table);
+db.query(query, function(err, rest) {
+ if(err){
+  res.json(err);
+}
+else{
+      res.render('index_paginate.ejs', {
+                title: 'welcomw aj',
+                players: rest,
+				pages :pages,
+				current :current,
+            });
+}
+
+});
+
+
+},
 	
+	
+	
+	
+	
+	
+//this function is realted list index page 	
     getHomePage: (req, res) => {
         let query = "SELECT * FROM `players` ORDER BY id ASC"; // query database to get all the players
 
@@ -24,6 +115,7 @@ module.exports = {
     },
 	
 	
+	//this function is related with genrate pdf 
 	genPdf:(req, res) => {
 		
 		 let query = "SELECT * FROM `players` ORDER BY id ASC"; // query database to get all the players
