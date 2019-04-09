@@ -26,8 +26,14 @@ module.exports = {
 							LimitNum = 2;
 							current=1;
 							pages=1;
+						   }
+						   if(pageId==2){
+							startNum = 2;
+							LimitNum = 2;
+							current=2;
+							pages=1;
 						   }else{  
-							startNum = parseInt(pageId);
+							startNum = ((parseInt(pageId)*2)-2);
 							LimitNum = 2;
 							current=parseInt(pageId);   
 						   }
@@ -54,7 +60,8 @@ db.query(query, (err, result) => {
   //store Total count in variable
   let totalCount = result[0].TotalCount;
   pages=Math.ceil(totalCount/2);
-  console.log(totalCount+'djdjdjdjd'+pages);
+  console.log(pages+'aasaS');
+ // console.log(totalCount+'djdjdjdjd'+pages);
   /* startNum = 0;
       LimitNum = 3;
  if(req.body.start == '' || req.body.limit == ''){
@@ -67,7 +74,7 @@ db.query(query, (err, result) => {
       let LimitNum = parseInt(req.body.limit);
    }*/
 }
-console.log(startNum+'========'+LimitNum);
+console.log(LimitNum+'========'+startNum);
 });
 var query1 = "Select * from ?? ORDER BY id ASC limit ? OFFSET ?";
 //Mention table from where you want to fetch records example-users & send limit and start 
@@ -114,6 +121,65 @@ else{
         });
     },
 	
+	downloadcsv:(req,resp)=>{
+		
+		 let query = "SELECT * FROM `players` ORDER BY id ASC"; // query database to get all the players
+         const path='public/assets/abc.csv';
+        // execute query
+        db.query(query, (err, result) => {
+        	// console.log(result);
+            if (err) {
+                res.redirect('/');
+            }
+		
+		
+		const createCsvWriter = require('csv-writer').createObjectCsvWriter;  
+const csvWriter = createCsvWriter({  
+  path: path,
+  header: [
+		   {id: 'id', title: 'id'},
+    {id: 'name', title: 'Name'},
+	 {id: 'position', title: 'position'},
+	 {id: 'number', title: 'number'},
+    
+  ]
+});
+
+const data = [];
+  if(result.length>0){
+				
+				 for (var i=0; i<result.length; i++){
+					 
+					  data.push({
+								 id: result[i].id,
+            name: result[i].first_name, 
+			position: result[i].position, 
+			number: result[i].number,
+           
+        })
+	
+        }
+			
+  }
+
+console.log(data);
+
+csvWriter  
+  .writeRecords(data)
+ .then(() => {
+        console.log('...Done');
+			var file ='public/assets/abc.csv';
+			
+			resp.download(file);
+			console.log('djdjdjd');
+    })
+   
+	})
+		
+	},
+		
+	 
+	
 	
 	//this function is related with genrate pdf 
 	genPdf:(req, res) => {
@@ -149,14 +215,15 @@ else{
 							var options = { format: 'Letter' };
 							
 							
-							pdf.create(html, options).toFile('public/assets/businesscard.pdf', function(err, res) {
+							pdf.create(html, options).toFile('public/assets/businesscard.pdf', function(err, resp) {
 							if (err) return console.log(err);
-							console.log(res); // { filename: '/app/businesscard.pdf' }
-							});
-			}
-				 var file = 'public/assets/businesscard.pdf';
+							console.log(resp); // { filename: '/app/businesscard.pdf' }
+							 var file = 'public/assets/businesscard.pdf';
   res.download(file); // Set disposition and send it.
 
+							});
+			}
+				
 			   
 			});
 	  

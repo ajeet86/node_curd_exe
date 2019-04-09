@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 
 
- const {getHomePage,genPdf,getHomePaginate} = require('./routes/index');
+ const {getHomePage,genPdf,getHomePaginate,downloadcsv} = require('./routes/index');
  const {addPlayerPage, addPlayer, deletePlayer, editPlayer, editPlayerPage} = require('./routes/player');
 const port = 5000;
 
@@ -52,6 +52,8 @@ app.post('/edit/:id', editPlayer);
 app.get('/genPdf', genPdf);
 app.get('/getHomePaginate', getHomePaginate);
 app.get('/getHomePaginate/:id', getHomePaginate);
+app.get('/downloadcsv', downloadcsv);
+
 
 
 // set the app to listen on the port
