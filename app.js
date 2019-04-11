@@ -13,7 +13,7 @@ const port = 5000;
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
 const db = mysql.createConnection ({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
     password: '',
     database: 'socka'
@@ -53,6 +53,16 @@ app.get('/genPdf', genPdf);
 app.get('/getHomePaginate', getHomePaginate);
 app.get('/getHomePaginate/:id', getHomePaginate);
 app.get('/downloadcsv', downloadcsv);
+
+
+<!-- api call needed lines starts ---->
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+var routes = require('./routes/approutes'); //importing route
+routes(app);
+<!-- end api call needed lines starts ---->
+//register the route
 
 
 
